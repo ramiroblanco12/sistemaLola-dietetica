@@ -32,4 +32,4 @@ Pensada para pequeños comercios que necesitan una solución simple y eficiente.
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/TUUSUARIO/sistema-stock-pos.git
+git clone https://github.com/ramiroblanco12/sistema-stock-pos.git
