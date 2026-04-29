@@ -1,0 +1,147 @@
+﻿@model IEnumerable<Proyecto_Lola.Models.Producto>
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/productos.css" asp-append-version="true" />
+}
+
+
+<div class="container d-flex flex-column align-items-center">
+
+    <h1 class="page-title">Tabla de Productos</h1>
+    <div class="filters-row">
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input id="codigoBarraHidden"
+                   type="text"
+                   autocomplete="off"
+                   placeholder="Escanea o Escribí para buscar..." />
+        </div>
+
+        <select id="fProveedor" class="filter-select">
+            <option value="">Todos los proveedores</option>
+            @foreach (var p in (SelectList)ViewBag.Proveedores)
+            {
+                <option value="@p.Value">@p.Text</option>
+            }
+        </select>
+
+        <select id="fCategoria" class="filter-select">
+            <option value="">Todas las categorías</option>
+            @foreach (var c in (SelectList)ViewBag.Categorias)
+            {
+                <option value="@c.Value">@c.Text</option>
+            }
+        </select>
+
+        <button type="button" id="btnLimpiar" class="btn-clear">Limpiar</button>
+
+        <span id="lblResultados" class="results-badge">0 resultado(s)</span>
+    </div>
+
+
+
+    <div class=" mb-1">
+        <a asp-action="Create" class="btn btn-primary rounded-btn">
+            + Agregar producto
+        </a>
+        <a asp-controller="Categorias" asp-action="Create" class="btn btn-primary rounded-btn">
+            + Agregar Categoria
+        </a>
+        <a asp-controller="Proveedores" asp-action="Create" class="btn btn-primary rounded-btn">
+            + Agregar Proveedor
+        </a>
+    </div>
+
+    <div class="col-md-14 col-12">
+        <div class="table-wrapper">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th sytle="width:35%">Nombre</th>
+                            <th sytle="width:35%">Descripción</th>
+                            <th sytle="width:35%">Categoría</th>
+                            <th>Costo</th>
+                            <th>Precio Final</th>
+                            @*                             <th>Stock</th>
+                            <th>Stock Mínimo</th> *@
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {@* 
+                            var bajo = item.StockActual <= item.StockMinimo; *@
+                        <tr @* class="@(bajo ? "fila-bajo-stock fila-bajo-stock" : "" *@)"
+                            class="prod-row"
+                            data-nombre="@item.Nombre"
+                            data-barcode="@item.CodigoBarras"
+                            data-categoriaid="@item.CategoriaId"
+                            data-proveedorid="@item.ProveedorId">
+
+                            <td sytle="width:35%">@item.Nombre</td>
+                            <td sytle="width:35%">@item.Descripcion</td>
+                            <td sytle="width:35%">@(item.Categoria?.Descripcion ?? "Sin categoría")</td>
+
+                            <td sytle="width:35%">$@( item.Costo.ToString("N2"))</td>
+                            <td sytle="width:35%">$@(item.PrecioFinal.ToString("N2"))</td>
+                            @* 
+                                <td sytle="width:35%">
+                                    @item.StockActual
+                                    @if (bajo)
+                                    {
+                                        <span class="badge-bajo ms-1">Bajo</span>
+                                    }
+                                </td>
+                                <td sytle="width:35%">@item.StockMinimo</td> *@
+                            <td class="text-center">
+                                <div class="btn-actions">
+                                    <a onclick="abrirEditar('@item.CodigoBarras')"
+                                       class="btn btn-sm btn-outline-info rounded-btn">
+                                        ✏ Editar
+                                    </a>
+                                    <a asp-action="Details" asp-route-id="@item.Id"
+                                       class="btn btn-sm btn-outline-secondary rounded-btn">
+                                        👁 Ver
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id"
+                                       class="btn btn-sm btn-outline-danger rounded-btn">
+                                        🗑 Eliminar
+                                    </a>
+                                    <a onclick="ImprimirEtiqueta(@item.Id); return false;" asp-route-id="@item.Id"
+                                       class="btn btn-sm btn-outline-danger rounded-btn">
+                                        🗑 Imprimir etiqueta
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                                                }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA EDITAR PRODUCTO (se mantiene ID para inyectar partial) -->
+<div class="modal fade" id="productoModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content text-center" id="productoModalContent"></div>
+    </div>
+</div>
+
+    <div id="productosCtx"
+         data-url-buscar="@Url.Action("BuscarPorCodigo", "Productoes")"
+         data-url-etiqueta="@Url.Action("DatosEtiqueta", "Productoes")">
+    </div>
+
+@section Scripts {
+@{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

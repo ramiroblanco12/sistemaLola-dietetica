@@ -1,0 +1,74 @@
+﻿@model Proyecto_Lola.Models.Proveedores
+
+@{
+    ViewData["Title"] = "Nuevo proveedor";
+}
+
+<div class="page-wrapper">
+
+    <h1 class="page-title">Crear proveedor</h1>
+    <p class="page-subtitle">Cargá los datos del proveedor para asociarlo a tus productos.</p>
+
+    <div class="card-elevated">
+
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger small text-center mb-2"></div>
+
+            <div class="edit-grid">
+
+                <div>
+                    <label asp-for="Nombre" class="field-label"></label>
+                    <input asp-for="Nombre" class="form-control rounded-input" />
+                    <span asp-validation-for="Nombre" class="text-danger small"></span>
+                </div>
+
+                <div>
+                    <label asp-for="NumeroTelefono" class="field-label"></label>
+                    <input asp-for="NumeroTelefono" class="form-control rounded-input" />
+                    <span asp-validation-for="NumeroTelefono" class="text-danger small"></span>
+                </div>
+                <div>
+                    <label asp-for="NumeroTelefono2" class="field-label"></label>
+                    <input asp-for="NumeroTelefono2" class="form-control rounded-input" />
+                    <span asp-validation-for="NumeroTelefono" class="text-danger small"></span>
+                </div>
+                <div>
+                    <label asp-for="NumeroTelefono3" class="field-label"></label>
+                    <input asp-for="NumeroTelefono3" class="form-control rounded-input" />
+                    <span asp-validation-for="NumeroTelefono" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Activo" class="field-label"></label>
+                    <input asp-for="Activo" class="form-control rounded-input" />
+                    <span asp-validation-for="Activo" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Anotacion" class="field-label"></label>
+                    <textarea asp-for="Anotacion" id="Anotacion" class="form-control rounded-input"></textarea>
+                    <div class="form-help">
+                        <span id="countNotas">0 / 250</span>
+                    </div>
+                    <span asp-validation-for="Anotacion" class="text-danger small"></span>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-pill-primary">➕ Crear proveedor</button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <a asp-action="Index" class="link-muted">⬅ Volver a la lista</a>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

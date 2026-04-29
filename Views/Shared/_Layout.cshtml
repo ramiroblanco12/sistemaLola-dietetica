@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Proyecto_Lola</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pages/forms.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+    @RenderSection("Styles",required:false)
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg app-navbar">
+            <div class="container-fluid px-3">
+                <a class="navbar-brand brand-pill" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="brand-dot"></span>
+                    La Almacen de Lola
+                    <span class="subtle d-none d-md-inline"></span>
+                </a>
+
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#appNav"
+                        aria-controls="appNav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="appNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
+                               asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Productoes" ? "active" : "")"
+                               asp-area="" asp-controller="Productoes" asp-action="Index">Productos</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Categorias" ? "active" : "")"
+                               asp-area="" asp-controller="Categorias" asp-action="Index">Categorías</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Ventas" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")"
+                               asp-area="" asp-controller="Ventas" asp-action="Index">Detalle de ventas</a>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-nav-primary"
+                           asp-area="" asp-controller="Ventas" asp-action="PuntoDeVenta">
+                            🧾 Vender
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="app-container">
+        <main role="main" class="app-surface">
+            @RenderBody()
+        </main>
+
+        <footer class="app-footer">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 px-1">
+                <div>
+                    <span class="subtle">© @DateTime.Now.Year</span>
+                    <span class="subtle">Proyecto_Lola</span>
+                </div>
+
+                <div class="d-flex gap-3">
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    <span class="subtle">Versión entrega</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Toast -->
+    <div id="toastNotificacion" class="toast-noti" style="background:#198754;">
+        <div class="toast-title" id="toastTitulo">Notificación</div>
+        <div class="toast-msg" id="toastMensaje"></div>
+    </div>
+
+    <script>
+        function mostrarToast(mensaje, tipo = "exito") {
+            const toast = document.getElementById('toastNotificacion');
+            const msg = document.getElementById('toastMensaje');
+            const title = document.getElementById('toastTitulo');
+
+            if (!toast || !msg || !title) return;
+
+            msg.textContent = mensaje;
+
+            switch (tipo) {
+                case "error":
+                    toast.style.backgroundColor = "#dc3545";
+                    title.textContent = "Error";
+                    break;
+                case "info":
+                    toast.style.backgroundColor = "#2563eb";
+                    title.textContent = "Info";
+                    break;
+                default:
+                    toast.style.backgroundColor = "#198754";
+                    title.textContent = "Listo";
+                    break;
+            }
+
+            toast.classList.add('mostrar');
+
+            setTimeout(() => {
+                toast.classList.remove('mostrar');
+            }, 3000);
+        }
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

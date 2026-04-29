@@ -1,0 +1,82 @@
+﻿@model Proyecto_Lola.Models.Producto
+
+@{
+    ViewData["Title"] = "Nuevo producto";
+}
+
+<div class="page-wrapper">
+
+    <h1 class="page-title">Crear producto</h1>
+    <p class="page-subtitle">Cargá un nuevo artículo en el sistema de la dietética.</p>
+
+    <div class="card-elevated">
+
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger small text-center mb-2"></div>
+
+            <div class="edit-grid">
+
+                <div>
+                    <label asp-for="Nombre" class="field-label"></label>
+                    <input asp-for="Nombre" class="form-control rounded-input" />
+                    <span asp-validation-for="Nombre" class="text-danger small"></span>
+                </div>
+
+                <div>
+                    <label asp-for="CodigoBarras" class="field-label"></label>
+                    <input asp-for="CodigoBarras" class="form-control rounded-input" />
+                    <span asp-validation-for="CodigoBarras" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Descripcion" class="field-label"></label>
+                    <input asp-for="Descripcion" class="form-control rounded-input" />
+                    <span asp-validation-for="Descripcion" class="text-danger small"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Costo" class="field-label"></label>
+                    <input asp-for="Costo" class="form-control rounded-input text-center" />
+                    <span asp-validation-for="Costo" class="text-danger small"></span>
+                </div>
+                <div>
+                    <label asp-for="PorcentajeIndividual" class="field-label">Porcentaje de Margen</label>
+                    <input asp-for="PorcentajeIndividual" class="form-control rounded-input text-center" />
+                    <span asp-validation-for="PorcentajeIndividual" class="text-danger small"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Categoria" class="field-label"></label>
+                    <select asp-for="CategoriaId"
+                            class="form-select rounded-input"
+                            asp-items="ViewBag.CategoriasId"></select>
+                    <span asp-validation-for="CategoriaId" class="text-danger small"></span>
+                </div>
+                <div>
+                    <label asp-for="Proveedor" class="field-label"></label>
+                    <select asp-for="ProveedorId"
+                            class="form-select rounded-input"
+                            asp-items="ViewBag.ProveedorId"></select>
+                    <span asp-validation-for="ProveedorId" class="text-danger small"></span>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-pill-primary">
+                    ➕ Crear producto
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <a asp-action="Index" class="link-muted">⬅ Volver a la lista</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Proyecto_Lola.Models.Proveedores>
+
+@{
+    ViewData["Title"] = "Tabla de Proveedores";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/proveedores.css" asp-append-version="true" />
+}
+
+<div class="container d-flex flex-column align-items-center">
+
+    <h1 class="page-title">Tabla de Categorias</h1>
+
+    <input id="codigoBarraHidden"
+           type="text"
+           autocomplete="off"
+           style="position:absolute; left:-9999px; top:-9999px;"
+           autofocus />
+
+    <div class=" mb-1">
+        <a asp-controller="Proveedores" asp-action="Create" class="btn btn-primary rounded-btn">
+            + Agregar Proveedor
+        </a>
+    </div>
+
+    <div class="col-md-8 col-12">
+        <div class="table-wrapper">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nombre de Proveedor</th>
+                            <th>Telefono</th>
+                            <th>Estado</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NumeroTelefono)
+                                </td>
+                                <td>
+                                    @if (item.Activo)
+                                    {
+                                        <span class="badge bg-success">Activo</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Inactivo</span>
+                                    }
+                                </td>
+
+                                <td class="text-center">
+                                    <div class="btn-actions">
+                                        <a asp-action="Edit" asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-outline-info rounded-btn">
+                                            ✏ Editar
+                                        </a>
+                                        
+
+                                        <form asp-action="CambiarEstado" asp-route-id="@item.Id" method="post" style="display:inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm btn-outline-info rounded-btn">
+                                                Cambiar estado
+                                            </button>
+                                        </form>
+
+                                        
+                                        <a asp-action="Delete" asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-outline-danger rounded-btn">
+                                            🗑 Eliminar
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

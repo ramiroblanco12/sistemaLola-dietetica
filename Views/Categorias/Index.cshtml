@@ -1,0 +1,132 @@
+﻿@model IEnumerable<Proyecto_Lola.Models.Categoria>
+
+@{
+    ViewData["Title"] = "Tabla de Categorias";
+}
+<style>
+    body {
+        background-color: #f5f7fa;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .page-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #2a2f38;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .rounded-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        display: inline-block;
+    }
+
+    .table-wrapper {
+        background: white;
+        padding: 18px;
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+        margin-top: 10px;
+    }
+
+    .btn-actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: nowrap;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    th {
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        padding: 14px;
+        color: #6c757d;
+    }
+
+    td {
+        padding: 14px;
+        border-top: 1px solid #eee;
+        font-size: 0.95rem;
+    }
+
+    .badge-bajo {
+        background: #dc3545;
+        color: white;
+        padding: 3px 7px;
+        border-radius: 6px;
+        font-size: 0.7rem;
+        font-weight: 700;
+    }
+
+    .fila-bajo-stock {
+        background-color: #fff6f6;
+    }
+</style>
+
+<div class="container d-flex flex-column align-items-center">
+
+    <h1 class="page-title">Tabla de Categorias</h1>
+
+    <input id="codigoBarraHidden"
+           type="text"
+           autocomplete="off"
+           style="position:absolute; left:-9999px; top:-9999px;"
+           autofocus />
+
+    <div class=" mb-1">
+        <a asp-controller="Categorias" asp-action="Create" class="btn btn-primary rounded-btn">
+            + Agregar Categoria
+        </a>
+    </div>
+
+    <div class="col-md-8 col-12">
+        <div class="table-wrapper">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nombre de Categoria</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                        <td>
+
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+
+                        <td class="text-center">
+                            <div class="btn-actions">
+                                <a asp-action="Edit" asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-info rounded-btn">
+                                    ✏ Editar
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-danger rounded-btn">
+                                    🗑 Eliminar
+                                </a>
+                            </div>
+                        </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

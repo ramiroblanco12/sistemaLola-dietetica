@@ -1,0 +1,135 @@
+﻿@{
+    ViewData["Title"] = "Punto de venta";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/pv.css" asp-append-version="true" />
+}
+
+<div class="pv-container">
+    <h1 class="page-title">Punto de venta</h1>
+
+
+
+
+    <input id="codigoBarraVentaInput"
+           type="text"
+           autocomplete="off"
+           class="pv-scanner" />
+
+
+    <div class="pv-card">
+
+        <div class="d-flex gap-2">
+        <button class="btn btn-outline-success" type="button" id="btnAbrirManual">
+            Agregar Item Manual
+        </button>
+        </div>
+
+        <p class="pv-subtitle">
+            Escaneá los productos, se agregan a la tabla de abajo.
+            El total se actualiza y después confirmás la venta.
+        </p>
+
+        <div class="pv-table-wrapper">
+            <table class="table table-striped mb-0 pv-table" id="tablaVenta">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cant.</th>
+                        <th>Precio unit.</th>
+                        <th>Subtotal</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="detalleVentaBody">
+                    @* las filas se agregan con JS *@
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pv-total-bar">
+            <div class="pv-summary-row">
+                <div>
+                    <span class="pv-total-text">Total: </span>
+                    <span class="pv-total-highlight">$ <span id="totalVenta">0.00</span></span>
+                </div>
+
+                <div class="pv-summary-right">
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="medioPago" class="pv-label mb-0">Medio de pago</label>
+                        <select id="medioPago" class="form-select form-select-sm" style="width:150px">
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Debito">Debito</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-success btn-pv-confirm" type="button" id="btnConfirmarVenta">
+                        Confirmar venta
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="modalItemManual" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded-4">
+            <div class="modal-header border-0">
+                <div>
+                    <h5 class="modal-title fw-bold mb-0">Agregar ítem manual</h5>
+                    <small class="text-muted">Para ventas sin código de barras</small>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body pt-2">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Descripción</label>
+                    <input type="text" class="form-control" id="manualDescripcion" placeholder="Agregar descripcion de producto..." autocomplete="off" />
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-6">
+                        <label class="form-label fw-semibold">Cantidad</label>
+                        <input type="number" class="form-control" id="manualCantidad" min="1" value="1" />
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label fw-semibold">Importe unitario</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="manualImporte" min="0" step="0.01" placeholder="0.00" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 p-3 bg-light rounded-3 d-flex justify-content-between align-items-center">
+                    <span class="text-muted">Subtotal</span>
+                    <span class="fw-bold" id="manualSubtotal">$0.00</span>
+                </div>
+            </div>
+
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary rounded-pill px-4" id="btnAgregarManual">
+                    Agregar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="pvCtx"
+     data-url-buscar="@Url.Action("BuscarPorCodigoJson", "Productoes")"
+     data-url-confirmar="@Url.Action("ConfirmarVenta", "Ventas")"
+     data-url-ticket="@Url.Action("DatosTicket", "Ventas")">
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

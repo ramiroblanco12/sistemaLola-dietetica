@@ -1,0 +1,46 @@
+﻿@model Proyecto_Lola.Models.Categoria
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="page-wrapper">
+
+    <h1 class="page-title">Editar categoria</h1>
+    <p class="page-subtitle">Actualizá los datos de la categoria seleccionado.</p>
+
+    <div class="card-elevated">
+
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger small text-center mb-2"></div>
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="edit-grid">
+
+                <div>
+                    <label asp-for="Descripcion" class="control-label"></label>
+                    <input asp-for="Descripcion" class="form-control" />
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                </div>
+
+
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-pill-primary">
+                    💾 Guardar cambios
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <a asp-action="Index" class="link-muted">⬅ Volver a la lista</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

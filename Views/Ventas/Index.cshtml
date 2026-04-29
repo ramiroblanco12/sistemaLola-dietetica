@@ -1,0 +1,119 @@
+﻿@* @model IEnumerable<Proyecto_Lola.Models.Venta> *@
+@model Proyecto_Lola.ViewModels.VentaIndexVM
+
+@{
+    ViewData["Title"] = "Tablas de Venta";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/ventas.css" asp-append-version="true" />
+}
+
+
+<div class="container d-flex flex-column align-items-center">
+
+    <h1 class="page-title">Detalles de ventas</h1>
+    <div class="kpi-row">
+        <div class="kpi-card kpi-soft">
+            <div class="kpi-title">Efectivo</div>
+            <div class="kpi-value">$ @Model.TotalEfectivo.ToString("N2")</div>
+            <div class="kpi-sub">Suma de ventas en efectivo</div>
+        </div>
+
+        <div class="kpi-card kpi-main">
+            <div class="kpi-title">General</div>
+            <div class="kpi-value">$ @Model.TotalGeneral.ToString("N2")</div>
+            <div class="kpi-sub">Suma de ventas generales</div>
+        </div>
+        <div class="kpi-card kpi-soft">
+            <div class="kpi-title">Debito</div>
+            <div class="kpi-value">$ @Model.TotalDebito.ToString("N2")</div>
+            <div class="kpi-sub">Suma de ventas en debito</div>
+        </div>
+    </div>
+
+
+
+
+    <form method="get" class="filters-row">
+        <input type="hidden" name="tipoTotal" value="@Model.TipoTotalSeleccionado" />
+
+        <div class="field">
+            <label class="label">Desde</label>
+            <input type="date" name="desde" class="control" value="@ViewBag.Desde" />
+        </div>
+
+        <div class="field">
+            <label class="label">Hasta</label>
+            <input type="date" name="hasta" class="control" value="@ViewBag.Hasta" />
+        </div>
+
+        <button type="submit" class="btnx btn-primaryx">Filtrar</button>
+
+        <a class="btnx btn-ghostx"
+           asp-controller="Ventas"
+           asp-action="Index"
+           asp-route-tipoTotal="@Model.TipoTotalSeleccionado">
+            Limpiar
+        </a>
+    </form>
+
+
+    <div class="col-md-14 col-12">
+        <div class="table-wrapper">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width:35%">Fecha</th>
+                            <th style="width:35%">Total</th>
+                            <th style="width:35%">Medio De Pago</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Ventas)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Fecha)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Total)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MedioPago)
+                                </td>
+
+                                <td class="text-center">
+                                    <div class="btn-actions">
+                                        <a asp-action="Edit" asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-outline-info rounded-btn">
+                                            ✏ Editar
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-outline-danger rounded-btn">
+                                            🗑 Eliminar
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    @if (!Model.Ventas.Any() && (ViewBag.Desde != null || ViewBag.Hasta != null))
+    {
+        <script>
+            window.addEventListener("load", () => {
+                mostrarToast("No hay ventas para el período seleccionado", "info");
+            });
+        </script>
+    }
+}
+

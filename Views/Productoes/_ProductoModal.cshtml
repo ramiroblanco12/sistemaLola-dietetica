@@ -1,0 +1,118 @@
+﻿@model Proyecto_Lola.Models.Producto
+
+<div class="modal-header border-0 pb-0">
+    <div>
+        <h5 class="modal-title fw-bold">Editar producto</h5>
+        <small class="text-muted">Actualizá datos, costo, stock y categoría</small>
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+</div>
+
+<form asp-action="GuardarDesdeModal" method="post" class="needs-validation" novalidate>
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="modal-body pt-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-3">
+            <!-- Columna izquierda -->
+            <div class="col-12 col-lg-6">
+                <div class="p-3 bg-light rounded-4">
+                    <h6 class="fw-semibold mb-3">Identificación</h6>
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label fw-semibold"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Descripcion" class="form-label fw-semibold"></label>
+                        <input asp-for="Descripcion" class="form-control" />
+                        <span asp-validation-for="Descripcion" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="CodigoBarras" class="form-label fw-semibold"></label>
+                        <input asp-for="CodigoBarras" class="form-control" readonly inputmode="numeric" />
+                        <span asp-validation-for="CodigoBarras" class="text-danger"></span>
+                        <div class="form-text">Escaneá o pegá el código. Se valida en el servidor.</div>
+                    </div>
+
+                    <div class="mb-0">
+                        <label class="form-label fw-semibold">Categoría</label>
+                        <select asp-for="CategoriaId" asp-items="ViewBag.Categorias" class="form-select"></select>
+                        <span asp-validation-for="CategoriaId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna derecha -->
+            <div class="col-12 col-lg-6">
+                <div class="p-3 bg-light rounded-4">
+                    <h6 class="fw-semibold mb-3">Precio y stock</h6>
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="PorcentajeIndividual" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <input asp-for="PorcentajeIndividual" class="form-control" placeholder="Ej: 60" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                            <span asp-validation-for="PorcentajeIndividual" class="text-danger"></span>
+                            <div class="form-text">Si lo dejás vacío, se usa el margen general.</div>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Costo" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="Costo" class="form-control" />
+                            </div>
+                            <span asp-validation-for="Costo" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="PrecioFinal" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <!-- Mejor: mostrar pero no permitir editar -->
+                                <input asp-for="PrecioFinal" class="form-control" readonly />
+                            </div>
+                            <div class="form-text">Se calcula automáticamente en el servidor.</div>
+                        </div>
+
+@*                         <div class="col-6">
+                            <label asp-for="StockActual" class="form-label fw-semibold"></label>
+                            <input asp-for="StockActual" class="form-control" />
+                            <span asp-validation-for="StockActual" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <label asp-for="StockMinimo" class="form-label fw-semibold"></label>
+                            <input asp-for="StockMinimo" class="form-control" />
+                            <span asp-validation-for="StockMinimo" class="text-danger"></span>
+                        </div> *@
+@* 
+                        <div class="col-12">
+                            <label asp-for="UnidadMedida" class="form-label fw-semibold"></label>
+                            <input asp-for="UnidadMedida" class="form-control" placeholder="Ej: unid / kg / g" />
+                            <span asp-validation-for="UnidadMedida" class="text-danger"></span>
+                        </div> *@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer border-0 pt-0">
+        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">
+            Cerrar
+        </button>
+        <button type="submit" class="btn btn-primary rounded-pill px-4">
+            Guardar cambios
+        </button>
+    </div>
+</form>

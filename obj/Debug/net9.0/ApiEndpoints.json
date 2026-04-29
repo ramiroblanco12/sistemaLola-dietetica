@@ -1,0 +1,44 @@
+[
+  {
+    "ContainingType": "Proyecto_Lola.Controllers.ImpresionController",
+    "Method": "DebugCartelGet",
+    "RelativePath": "api/impresion/cartel/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Proyecto_Lola.Controllers.ImpresionController",
+    "Method": "ImprimirCartel",
+    "RelativePath": "api/impresion/cartel/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Proyecto_Lola.Controllers.ImpresionController",
+    "Method": "Test",
+    "RelativePath": "api/impresion/test",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]

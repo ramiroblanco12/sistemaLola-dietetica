@@ -1,0 +1,43 @@
+﻿@model Proyecto_Lola.Models.Categoria
+
+@{
+    ViewData["Title"] = "Nueva categoría";
+}
+
+<div class="page-wrapper">
+
+    <h1 class="page-title">Crear categoría</h1>
+    <p class="page-subtitle">Agregá una nueva categoría para ordenar tus productos.</p>
+
+    <div class="card-elevated">
+
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger small text-center mb-2"></div>
+
+            <div class="edit-grid">
+
+                <div class="col-12">
+                    <label asp-for="Descripcion" class="field-label"></label>
+                    <input asp-for="Descripcion"class="form-control rounded-input" />
+                    <span asp-validation-for="Descripcion" class="text-danger small"></span>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-pill-primary">➕ Crear categoría</button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <a asp-action="Index" class="link-muted">⬅ Volver a la lista</a>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
